@@ -29,6 +29,12 @@ func NewClient(address string, namespace string) (r *Client, err error) {
 	return
 }
 
+// NewClientWithConn returns a Client given a pre-existing redis connection, and a namespace.
+// Useful if you need to authenticate a connection or use it elsewhere.
+func NewClientWithConn(c redis.Conn, namespace string) *Client {
+	return &Client{namespace: namespace, redisConn: c}
+}
+
 func (client *Client) index(i Indexable, segmentFn SegmentFn) (err error) {
 	indexType, key, entity, rank := i.IndexEntity()
 
